@@ -64,7 +64,7 @@ def chall8():
     # alphabet = dict().fromkeys(list(string.printable))
     dict_bytes = {}
     n=0
-    for hexstring, n in zip(fContent, range(len(fContent))):
+    for hexstring, n in zip(fContent, range(1, len(fContent))):
         raw = binascii.unhexlify(hexstring)
 
         # On convertit tou ça en blocks de 16
@@ -74,7 +74,7 @@ def chall8():
         # Pour faire ça on va simplement comparer la taille de set(blocks) et de blocks
         # set(blocks) étant l'équivalent de blocks, mais sans les duplicatas
         if(len(set(blocks)) != len(blocks)):
-            print("Potential AES-CBC detected on line {0}:".format(n))
+            print("Potential AES-ECB detected on line {0}:".format(n))
             print(hexstring)
 
 if __name__ == '__main__':
