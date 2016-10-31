@@ -14,14 +14,16 @@ def hex2b64(hex_data):
     return(b64_data)
 
 
-def fixedXOR(a, b):
+def fixedXOR(a, b, raw=0):
     """
     Do a XOR between a and b with a same size.
 
-    :param a: The first hexlified string to XOR
-    :param b: The second hexlified string to XOR
+    :param a: The first string to XOR
+    :param b: The second string to XOR
+    :param raw: Boolean to either compute with raw or hexlified data
     :type a: byte
     :type b: byte
+    :type raw: Boolean
     :return: The result of the xor
     :rtype: byte
     """
@@ -30,8 +32,9 @@ def fixedXOR(a, b):
     assert(isinstance(b, bytes))
     assert(len(a) == len(b))
 
-    a = binascii.unhexlify(a)
-    b = binascii.unhexlify(b)
+    if(raw == 0):
+        a = binascii.unhexlify(a)
+        b = binascii.unhexlify(b)
 
     # pour les besoins du XOR on convertit tout ça en int
     int_a = int.from_bytes(a, byteorder='big')
@@ -42,7 +45,8 @@ def fixedXOR(a, b):
 
     # on convertir tout ça en hexa
     out = out.to_bytes(out.bit_length() // 8 + 1, byteorder='big')
-    out = binascii.hexlify(out)
+    if(raw == 0):
+        out = binascii.hexlify(out)
 
     return(out)
 
