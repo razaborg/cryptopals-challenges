@@ -340,22 +340,25 @@ def aes_ecb(bData, bKey, action):
 
     :param bData: The data to encrypt (non-hexlified)
     :param bkey: The key used to encrypt bData (non-hexlified)
+    :param action: Indicate if we want to encrypt of decrypt usign aes_ecb
     :type bData: byte
     :type bKey: byte
-    :return: The encrypted result
+    :type action: 'encrypt' or 'decrypt'
+    :return: The encrypted or decrypted result
     :rtype: byte
     """
     assert(isinstance(bData, bytes))
     assert(isinstance(bKey, bytes))
+    assert(action == 'encrypt' or action == 'decrypt')
 
     # key long: 16 (AES-128), 24 (AES-192), or 32 (AES-256)
     iv = Random.new().read(AES.block_size)
     cipher = AES.new(bKey, AES.MODE_ECB, iv)
-    
+
     if(action == 'decrypt'):
         return cipher.decrypt(bData)
     elif(action == 'encrypt'):
-        return(iv + cipher.encrypt(bData))
+        return(cipher.encrypt(bData))
 
 
 def readFile(infile):
