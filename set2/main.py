@@ -30,21 +30,7 @@ def chall10():
     blocks = cryptopals.divideBytesInBlocks(mystr, keysize)
     out = []
     # On traite les blocks un par un
-    for i in range(len(blocks)):
-        # Pour le premier on envoie à la fonction un XOR entre
-        # iv et le premier block
-        if(i == 0):
-            data_in = cryptopals.fixedXOR(hexlify(iv), hexlify(blocks[i]))
-        else:
-            # et pour les suivants, on lui envoie les blocks n et n-1
-            data_in = cryptopals.fixedXOR(hexlify(blocks[i-1]), hexlify(blocks[i]))
-        data_in = unhexlify(data_in)
-        out.append(data_in)
-    # On a maintenant une liste
-    print(out)
 
-    # AES CBC DECRYPT TEST
-    for i in range(len(blocks)
 
 if __name__ == '__main__':
     # chall9()
