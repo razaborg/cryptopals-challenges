@@ -54,7 +54,7 @@ def chall7():
     # ouverture du fichier et récupération du contenu b64 décodé
     b64_file = readb64File("7.txt")
     key = b'YELLOW SUBMARINE'
-    out = decryptAES(b64_file, key)
+    out = aes_ecb(b64_file, key, 'decrypt')
     print(out.decode())
 
 def chall8():
