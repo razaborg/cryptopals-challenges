@@ -58,7 +58,7 @@ def chall7():
     print(out.decode())
 
 def chall8():
-    fContent = readFileHex("8.txt")
+    fContent = readFile("8.txt")
 
     # candidates = {16: [], 24 : [], 32 : []}
     # alphabet = dict().fromkeys(list(string.printable))
