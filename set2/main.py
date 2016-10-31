@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from cryptopals import *
+import cryptopals
 
 
 def chall9():
@@ -10,7 +10,7 @@ def chall9():
 
 
 def chall10():
-    
+    print()
 
 if __name__ == '__main__':
     # chall9()
