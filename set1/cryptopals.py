@@ -191,14 +191,7 @@ def readb64File(infile):
     #     print(byte)
     # print(out)
     return out
-##############################################################################
-# findXORkeysize est une fonction qui ouvre un fichier 'infile' dont le contenu est encodé en base64.
-#  Elle utilise la fonction readb64File pour récupérer son contenu décodé.
-#  Elle utilise également la fonction hamming pour définir la taille de clef la plus probable.
-# - infile est une chaine de caracteres contenant le nom du fichier à ouvrir
-# - mini (facultatif) est un entier indiquant la taille de clef minimum à tester
-# - maxi (facultatif) est un entier indiquant la taille de clef maximum à tester
-##############################################################################
+
 def findKeysize(rawbyte, mini=2, maxi=40):
     result = {'keysize': 0, 'hamming': 100}
     for KEYSIZE in range(mini, maxi):
