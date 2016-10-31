@@ -2,6 +2,7 @@
 
 from cryptopals import *
 from operator import itemgetter
+import itertools
 
 def chall1():
     print(hex2b64(b'49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d'))
@@ -62,38 +63,19 @@ def chall8():
     # candidates = {16: [], 24 : [], 32 : []}
     # alphabet = dict().fromkeys(list(string.printable))
     dict_bytes = {}
-    for hexstring in fContent:
+    n=0
+    for hexstring, n in zip(fContent, range(len(fContent))):
         raw = binascii.unhexlify(hexstring)
-        keySize = findKeysize(raw)
 
-        # On sait que les tailles de clefs sont forcément de 16,24, ou 32
-        # On crée donc une liste candidates qui va contenir seulements
-        # les contenu dont la clef est de cette taille "compatible"
-        if(keySize == 16 or keySize == 24 or keySize == 32):
-            # candidates[keySize].append(raw)
-            print(keySize)
-            for byte in raw:
-                dict_bytes.update({byte : raw.count(byte) } )
-            s = [(k, dict_bytes[k]) for k in sorted(dict_bytes, key=dict_bytes.get, reverse=True)]
-            for k, v in s:
-                print(k, v)
-            input()
+        # On convertit tou ça en blocks de 16
+        blocks = divideBytesInBlocks(raw, 16)
 
-    # # On va traiter nos candidats par groupe de taille
-    # for KEYSIZE in candidates:
-    #     # pour chaque chaine candidate de taille KEYSIZE
-    #     for content in candidates[KEYSIZE]:
-    #         # On va saucisonner en blocs de taille KEYSIZE
-    #         blocks = divideBytesInBlocks(raw, KEYSIZE)
-    #         # print(len(blocks[0]))
-    #         # exit()
-    #         # Maintenant qu'on a des blocs qui font la taille de la clef, on va les étudier
-    #         # C'est à dire que l'on va faire une étude statistique sur les bytes qui reviennt le plus souvent
-    #         for i in blocks:
-    #             for byte in blocks:
-    #                 blocks[i].count(byte)
-
-
+        # Et pour détecter le chiffrement AES ECB, on va chercher les blocks dupliqués
+        # Pour faire ça on va simplement comparer la taille de set(blocks) et de blocks
+        # set(blocks) étant l'équivalent de blocks, mais sans les duplicatas
+        if(len(set(blocks)) != len(blocks)):
+            print("Potential AES-CBC detected on line {0}:".format(n))
+            print(hexstring)
 
 if __name__ == '__main__':
 
