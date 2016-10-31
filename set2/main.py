@@ -9,5 +9,9 @@ def chall9():
     assert(PKCS7padder(string, 20) == b'YELLOW SUBMARINE\x04\x04\x04\x04')
 
 
+def chall10():
+    
+
 if __name__ == '__main__':
-    chall9()
+    # chall9()
+    chall10()
