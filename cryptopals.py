@@ -334,9 +334,9 @@ def sizeBlocks2bytesBlocks(blocks):
     return(outList)
 
 
-def decryptAES(bData, bKey):
+def aes_ecb(bData, bKey, action):
     """
-    Encrypt bData with bKey in AES-128 ECB.
+    Decrypt or Encrypt bData with bKey in AES-128 ECB.
 
     :param bData: The data to encrypt (non-hexlified)
     :param bkey: The key used to encrypt bData (non-hexlified)
@@ -351,9 +351,11 @@ def decryptAES(bData, bKey):
     # key long: 16 (AES-128), 24 (AES-192), or 32 (AES-256)
     iv = Random.new().read(AES.block_size)
     cipher = AES.new(bKey, AES.MODE_ECB, iv)
-    msg = cipher.decrypt(bData)
-    # msg = iv + cipher.encrypt(b'Attack at dawn')
-    return(msg)
+    
+    if(action == 'decrypt'):
+        return cipher.decrypt(bData)
+    elif(action == 'encrypt'):
+        return(iv + cipher.encrypt(bData))
 
 
 def readFile(infile):
