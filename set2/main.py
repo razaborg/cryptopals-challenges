@@ -12,11 +12,8 @@ def chall9():
 
 def chall10():
     # Just to try the cryptopals.aes_ecb() :
-    mystr = b'coucou les amis!I love ricard!!!And python a bit'
+    # mystr = b'coucou les amis!I love ricard!!!And python a bit'
     # print(mystr)
-    # ciphered = cryptopals.aes_ecb(mystr, b'YELLOW SUBMARINE', 'encrypt')
-    # print(ciphered)
-    # print(cryptopals.aes_ecb(ciphered, b'YELLOW SUBMARINE', 'decrypt').decode())
 
     # Key
     key = b'YELLOW SUBMARINE'
@@ -25,11 +22,17 @@ def chall10():
     # Vecteur d'initialisation:
     iv = chr(0).encode() * keysize
 
-    # AES CBC ENCRYPT TEST
-    # On crée des blocks de 16 à partir de notre input
-    blocks = cryptopals.divideBytesInBlocks(mystr, keysize)
-    out = []
-    # On traite les blocks un par un
+    # en = cryptopals.aes_cbc(mystr, key, iv, 'encrypt')
+    # print(en)
+    # en = b''.join(en)
+    # de = cryptopals.aes_cbc(en, key, iv, 'decrypt')
+    # print(de)
+
+    data = cryptopals.readb64File('10.txt')
+    out = cryptopals.aes_cbc(data, key, iv, 'decrypt')
+    out = b''.join(out)
+    print(out.decode())
+
 
 
 if __name__ == '__main__':
