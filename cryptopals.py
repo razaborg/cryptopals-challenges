@@ -50,6 +50,28 @@ def fixedXOR(a, b, raw=0):
 
     return(out)
 
+def xor(a, b):
+    """
+    Do a XOR between a and b with a same size.
+    Proper reviewed version of the fixedXOR(),
+    with **raw inputs/outputs** (non-hexlified).
+
+    :param a: The first byte to XOR
+    :param b: The first byte to XOR
+    :type a: byte
+    :type b: byte
+    :return: The XOR result
+    :rtype: byte
+    """
+    assert(len(a) == len(b))
+
+    xor = b''
+    for n in range(len(a)):
+        # print(a[n], b[n])
+        xor += bytes([a[n] ^ b[n]])
+    assert(len(a) == len(xor))
+
+    return(xor)
 
 def unXOR(a):
     """
