@@ -387,6 +387,57 @@ def aes_ecb(bData, bKey, action):
         return(cipher.encrypt(bData))
 
 
+def aes_cbc(dataIn, key, iv, action):
+    """
+    Decrypt or Encrypt dataIn with key in AES-128 CBC using aes_ecb().
+
+    :param dataIn: The data to encrypt (non-hexlified)
+    :param key: The key used to encrypt bData (non-hexlified)
+    :param action: Indicate if we want to encrypt of decrypt
+    :type bData: byte
+    :type bKey: byte
+    :type action: 'encrypt' or 'decrypt'
+    :return: The encrypted or decrypted result
+    :rtype: byte
+    """
+    assert(isinstance(dataIn, bytes))
+    assert(isinstance(key, bytes))
+    assert(isinstance(iv, bytes))
+    assert(action == 'encrypt' or action == 'decrypt')
+
+    keysize = len(key)
+
+    if(action == 'encrypt'):
+        # ENCRYPT
+        ciphertext = []
+        plaintext = divideBytesInBlocks(dataIn, keysize)
+
+        # On parcourt les blocs de notre plaintext
+        for block in plaintext:
+            # print(block)
+            if block == plaintext[0]:
+                xor_out = xor(iv, block)
+            else:
+                xor_out = xor(ciphertext[len(ciphertext)-1], block)
+            aes = aes_ecb(xor_out, key, 'encrypt')
+            ciphertext.append(aes)
+        return(ciphertext)
+
+    elif(action == 'decrypt'):
+        plaintext = []
+        ciphertext = divideBytesInBlocks(dataIn, keysize)
+        # On parcourt les blocs de notre ciphertext
+        for block in ciphertext:
+            aes = aes_ecb(block, key, 'decrypt')
+            if block == ciphertext[0]:
+                xor_out = xor(iv, aes)
+            else:
+                xor_out = xor(lastblock, aes)
+            lastblock = block
+            plaintext.append(xor_out)
+
+        return(plaintext)
+
 def readFile(infile):
     """
     Open 'infile' and append each lines in a list.
